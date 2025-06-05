@@ -2,7 +2,7 @@
 lock "~> 3.19.2"
 
 set :application, "my_app_name"
-set :repo_url, "git@github.com:saem-mac2/tesgub.git"
+set :repo_url, "git@github.com:saem-mac2/sarapp.git"
 
 # Directory to deploy to on the server
 set :deploy_to, "/home/deploy/#{fetch(:application)}"
