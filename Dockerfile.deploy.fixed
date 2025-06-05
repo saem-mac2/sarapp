@@ -1,0 +1,25 @@
+FROM ruby:3.4.4-bullseye
+
+# Install system dependencies
+RUN apt-get update -qq && \
+    apt-get install -y build-essential libpq-dev git curl nodejs yarn \
+    libssl1.1 libssl-dev openssh-client && \
+    mkdir -p /root/.ssh && \
+    chmod 700 /root/.ssh
+
+WORKDIR /app
+
+COPY Gemfile Gemfile.lock ./
+
+RUN gem install bundler -v 2.4.19
+RUN bundle config set without 'development test'
+RUN bundle install
+
+COPY . .
+
+# Create the deploy script
+COPY deploy.sh /usr/local/bin/deploy.sh
+RUN chmod +x /usr/local/bin/deploy.sh
+
+# Default command
+CMD ["/usr/local/bin/deploy.sh"]
